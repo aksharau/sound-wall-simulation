@@ -722,12 +722,17 @@ export const WaveCanvas: React.FC<WaveCanvasProps> = ({
     <div className="relative w-full h-full flex flex-col bg-[#0b0e14] rounded-xl border border-[#1e293b] overflow-hidden shadow-2xl">
       {/* Top Canvas Controls Bar */}
       <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#111827] border-b border-[#1e293b] text-xs text-[#d1d5db]">
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#161f30] border border-[#1e293b] text-cyan-300 font-medium">
             <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
             <span className="font-mono text-white">f = {params.frequency} Hz</span>
             <span className="text-[#64748b]">|</span>
             <span className="font-mono text-[#cbd5e1]">λ = {physics.wavelengthAir.toFixed(2)} m</span>
+          </div>
+
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#161f30] border border-[#1e293b] text-cyan-300 font-medium">
+            <span className="text-[#94a3b8]">SPL:</span>
+            <span className="font-mono font-bold text-white">{params.sourceSPL ?? 90} dB</span>
           </div>
 
           <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#161f30] border border-[#1e293b] text-[#cbd5e1]">

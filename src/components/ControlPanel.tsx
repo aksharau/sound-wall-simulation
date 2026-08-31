@@ -1,6 +1,6 @@
 import React from 'react';
 import { AcousticSimulationParams, PhysicsResults, VisualizationMode, Material } from '../types';
-import { MATERIAL_PRESETS } from '../physics/acoustics';
+import { MATERIAL_PRESETS, splToPressurePa } from '../physics/acoustics';
 import { 
   Sliders, 
   Layers, 
@@ -12,7 +12,8 @@ import {
   Gauge, 
   Volume2, 
   Info,
-  Radio
+  Radio,
+  Volume1
 } from 'lucide-react';
 
 interface ControlPanelProps {
@@ -30,6 +31,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   onSetMode,
   onUpdateParams,
 }) => {
+  // Preset sound level SPL in dB
+  const splPresets = [
+    { label: 'Speech', spl: 60, desc: '60 dB' },
+    { label: 'Traffic', spl: 75, desc: '75 dB' },
+    { label: 'Machinery / Music', spl: 90, desc: '90 dB' },
+    { label: 'Rock Concert', spl: 105, desc: '105 dB' },
+    { label: 'Siren / Jet', spl: 120, desc: '120 dB' },
+  ];
+
   // Preset frequency bands
   const frequencyPresets = [
     { label: 'Sub-bass', freq: 60, desc: 'Deep rumble' },
@@ -130,7 +140,71 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
       <div className="h-px bg-[#1e293b]" />
 
-      {/* 2. Frequency & Wavelength Controls */}
+      {/* 2. Source Sound Pressure Level (SPL) Controls */}
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <label htmlFor="spl-slider" className="text-xs font-semibold uppercase tracking-wider text-[#94a3b8] flex items-center gap-1.5">
+            <Volume2 className="w-3.5 h-3.5 text-cyan-400" />
+            Source Sound Level (L_p / SPL)
+          </label>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800">
+              <input
+                id="spl-num-input"
+                type="number"
+                min="30"
+                max="140"
+                step="1"
+                value={params.sourceSPL ?? 90}
+                onChange={(e) => onUpdateParams({ sourceSPL: Math.max(30, Math.min(140, Number(e.target.value))) })}
+                className="w-10 bg-transparent text-xs font-mono font-bold text-cyan-300 text-right focus:outline-none"
+              />
+              <span className="text-xs font-mono font-bold text-cyan-300">dB</span>
+            </div>
+            <span className="text-xs font-mono text-[#94a3b8]" title="Acoustic pressure in Pascals">
+              p = {splToPressurePa(params.sourceSPL ?? 90).toFixed(3)} Pa
+            </span>
+          </div>
+        </div>
+
+        {/* SPL Range Slider */}
+        <div className="flex items-center gap-3">
+          <span className="text-[11px] font-mono text-[#64748b] w-10">40 dB</span>
+          <input
+            id="spl-slider"
+            type="range"
+            min="40"
+            max="125"
+            step="1"
+            value={params.sourceSPL ?? 90}
+            onChange={(e) => onUpdateParams({ sourceSPL: Number(e.target.value) })}
+            className="flex-1 accent-cyan-400 cursor-pointer h-2 bg-[#161f30] rounded-lg appearance-none"
+          />
+          <span className="text-[11px] font-mono text-[#64748b] w-12 text-right">125 dB</span>
+        </div>
+
+        {/* SPL Quick Presets */}
+        <div className="flex flex-wrap gap-1.5">
+          {splPresets.map((p) => (
+            <button
+              key={p.spl}
+              id={`spl-preset-${p.spl}`}
+              onClick={() => onUpdateParams({ sourceSPL: p.spl })}
+              className={`px-2 py-1 rounded-md text-[11px] font-medium transition-colors border ${
+                (params.sourceSPL ?? 90) === p.spl
+                  ? 'bg-cyan-900/60 border-cyan-500 text-cyan-200 shadow-sm'
+                  : 'bg-[#161f30] border-[#1e293b] text-[#94a3b8] hover:bg-[#1e293b] hover:text-[#e2e8f0]'
+              }`}
+            >
+              {p.label} ({p.spl} dB)
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="h-px bg-[#1e293b]" />
+
+      {/* 3. Frequency & Wavelength Controls */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <label htmlFor="freq-slider" className="text-xs font-semibold uppercase tracking-wider text-[#94a3b8] flex items-center gap-1.5">

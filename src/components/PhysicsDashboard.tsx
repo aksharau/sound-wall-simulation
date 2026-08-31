@@ -62,6 +62,8 @@ export const PhysicsDashboard: React.FC<PhysicsDashboardProps> = ({
 
   const transPct = (physics.powerTransCoeff * 100).toFixed(1);
   const reflectPct = (physics.powerReflectCoeff * 100).toFixed(1);
+  const sourceSPL = params.sourceSPL ?? 90;
+  const transmittedSPL = Math.max(0, sourceSPL - physics.totalLossDB);
 
   return (
     <div className="flex flex-col gap-4 p-4 sm:p-5 bg-[#111827] rounded-xl border border-[#1e293b] text-[#d1d5db] shadow-xl">
@@ -92,7 +94,7 @@ export const PhysicsDashboard: React.FC<PhysicsDashboardProps> = ({
                 {transPct}%
               </div>
               <div className="text-[11px] text-[#94a3b8] font-mono">
-                Amp T = {physics.pressureTransCoeff.toFixed(3)}
+                Level: <span className="text-emerald-300 font-semibold">{transmittedSPL.toFixed(1)} dB SPL</span>
               </div>
             </div>
             <div className="w-full bg-[#161f30] h-1.5 rounded-full overflow-hidden">

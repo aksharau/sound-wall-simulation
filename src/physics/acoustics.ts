@@ -211,6 +211,23 @@ export function calculatePhysics(
 }
 
 /**
+ * Converts Sound Pressure Level (dB SPL referenced to 20 uPa) to RMS acoustic pressure in Pascals.
+ */
+export function splToPressurePa(splDB: number): number {
+  const p0 = 20e-6; // 20 micropascals reference
+  return p0 * Math.pow(10, splDB / 20);
+}
+
+/**
+ * Converts RMS acoustic pressure in Pascals to Sound Pressure Level (dB SPL).
+ */
+export function pressurePaToSPL(pressurePa: number): number {
+  const p0 = 20e-6;
+  if (pressurePa <= 0) return 0;
+  return Math.max(0, 20 * Math.log10(pressurePa / p0));
+}
+
+/**
  * Generates an array of transmission loss vs frequency data points for plotting frequency response.
  */
 export function generateFrequencyResponseCurve(

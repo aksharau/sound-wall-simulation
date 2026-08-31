@@ -32,6 +32,10 @@ An interactive acoustics physics simulator built with React, TypeScript, Tailwin
 - **Icons**: Lucide React
 - **Audio**: Web Audio API (OscillatorNode, GainNode, StereoPannerNode)
 
+## Prerequisites
+
+- **Node.js**: Version `18.0.0` or higher (`20.x` or `22.x` LTS recommended). Vite 6 requires Node.js >= 18.
+
 ## Getting Started
 
 ### Installation

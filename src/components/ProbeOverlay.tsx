@@ -47,16 +47,19 @@ export const ProbeOverlay: React.FC<ProbeOverlayProps> = ({ params, physics }) =
     params.rhoAir
   );
 
-  // Local SPL decibels estimate relative to source:
-  let localLevelDB = 0;
+  // Local SPL decibels estimate relative to source and absolute dB SPL:
+  const sourceSPL = params.sourceSPL ?? 90;
+  let relativeLossDB = 0;
   if (isIncidentSide) {
-    localLevelDB = 0;
+    relativeLossDB = 0;
   } else if (isInsideWall) {
     const frac = (probeMeters - wallStartX) / Math.max(0.001, wallEndX - wallStartX);
-    localLevelDB = -physics.totalLossDB * frac;
+    relativeLossDB = -physics.totalLossDB * frac;
   } else {
-    localLevelDB = -physics.totalLossDB;
+    relativeLossDB = -physics.totalLossDB;
   }
+
+  const localSPL = Math.max(0, sourceSPL + relativeLossDB);
 
   // Mini oscilloscope animation
   useEffect(() => {
@@ -150,12 +153,12 @@ export const ProbeOverlay: React.FC<ProbeOverlayProps> = ({ params, physics }) =
 
         {/* Local SPL dB */}
         <div className="flex flex-col text-right">
-          <span className="text-[10px] text-[#94a3b8]">Local Pressure Level</span>
+          <span className="text-[10px] text-[#94a3b8]">Probe Measured Sound Level</span>
           <span className="text-sm font-bold font-mono text-cyan-400">
-            {localLevelDB >= 0 ? '0.0 dB' : `${localLevelDB.toFixed(1)} dB`}
+            {localSPL.toFixed(1)} dB SPL
           </span>
-          <span className="text-[10px] text-[#64748b]">
-            P_amp: {(sampleNow.envelope * 100).toFixed(0)}%
+          <span className="text-[10px] text-[#64748b] font-mono">
+            {relativeLossDB === 0 ? 'Source Incident' : `${relativeLossDB.toFixed(1)} dB atten.`}
           </span>
         </div>
       </div>

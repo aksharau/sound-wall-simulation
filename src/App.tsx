@@ -12,6 +12,7 @@ const DEFAULT_PARAMS: AcousticSimulationParams = {
   frequency: 250, // 250 Hz
   wallThickness: 0.15, // 15 cm
   amplitude: 0.85,
+  sourceSPL: 90, // 90 dB SPL
   material: MATERIAL_PRESETS[1], // Solid Brick
   cAir: 343,
   rhoAir: 1.204,

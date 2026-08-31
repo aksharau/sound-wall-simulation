@@ -19,6 +19,7 @@ export interface AcousticSimulationParams {
   frequency: number; // Hz (e.g. 50 to 5000 Hz)
   wallThickness: number; // meters (e.g. 0.02 to 0.60 m)
   amplitude: number; // arbitrary units 0.1 to 1.0
+  sourceSPL: number; // Sound Pressure Level in dB SPL (e.g. 40 to 120 dB, default 90 dB)
   material: Material;
   cAir: number; // speed of sound in air (m/s, default 343)
   rhoAir: number; // air density (kg/m^3, default 1.204)
