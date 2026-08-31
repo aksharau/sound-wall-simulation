@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #0b0e14;
+    color: #d1d5db;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Custom sleek slider thumb styling */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 2px solid #06b6d4;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+  cursor: pointer;
+  margin-top: -4px;
+}
+
+input[type="range"].accent-amber::-webkit-slider-thumb,
+input[type="range"].accent-orange::-webkit-slider-thumb {
+  border-color: #f97316;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 2px solid #06b6d4;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+  cursor: pointer;
+}
+
+/* Sleek radar / matrix dot grid */
+.sleek-dot-grid {
+  background-image: radial-gradient(#1e293b 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+

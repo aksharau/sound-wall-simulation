@@ -1,0 +1,6 @@
+{
+  "name": "Sound Wave Wall Simulator",
+  "description": "Interactive acoustic physics simulator visualizing sound wave reflection, transmission, and attenuation through variable thickness walls with adjustable frequency, wavelength, and material properties.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
